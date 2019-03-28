@@ -11,7 +11,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 
 RUN apt update && \
-    apt install -y gfortran libmotif-dev libhdf5-dev libfftw3-dev libgdal-dev scons python3 cython3 python3-scipy python3-matplotlib python3-h5py python3-gdal python3-pip libxm4 && \
+    apt install -y gfortran libmotif-dev libhdf5-dev libfftw3-dev libgdal-dev scons python3 cython3 python3-scipy python3-matplotlib python3-h5py python3-gdal python3-pip && \
     rm -rf /var/lib/apt/lists/*
 
 # Install ISCE and remove files from /tmp folder
@@ -28,7 +28,7 @@ FROM ubuntu:18.04 as run
 # Install run-time libraries
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt update && \
-    apt install -y zip curl libmotif-common libfftw3-3 python3 cython3 python3-scipy python3-matplotlib python3-h5py python3-gdal python3-pip aria2 python3-ipython && \
+    apt install -y zip curl libmotif-common libfftw3-3 python3 cython3 python3-scipy python3-matplotlib python3-h5py python3-gdal python3-pip aria2 python3-ipython libxm4 && \
     rm -rf /var/lib/apt/lists/*
 
 # Setup ISCE environment
