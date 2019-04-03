@@ -276,7 +276,8 @@ def download_scene(downloadUrl):
 
 
 def query_asf(snwe, sat='SA', format='json',
-              orbit=None, start=None, stop=None, beam='IW'):
+              orbit=None, start=None, stop=None, beam='IW',
+              processingLevel='SLC'):
     """Search ASF with [south, north, west, east] bounds.
 
     Saves result to local file: query_{sat}.{format}
@@ -304,7 +305,7 @@ def query_asf(snwe, sat='SA', format='json',
     easiest input
 
     """
-    print(f'Querying ASF Vertex for {sat}...')
+    print(f'Querying ASF Vertex for {sat}... {snwe}')
     miny, maxy, minx, maxx = snwe
     roi = shapely.geometry.box(minx, miny, maxx, maxy)
     polygonWKT = roi.to_wkt()
@@ -313,7 +314,7 @@ def query_asf(snwe, sat='SA', format='json',
     # relativeOrbit=$ORBIT
     data = dict(intersectsWith=polygonWKT,
                 platform=sat,
-                processingLevel='SLC',
+                processingLevel=processingLevel,
                 beamMode=beam,
                 output=format)
     if orbit:

@@ -213,7 +213,7 @@ def plot_timeline_sentinel(gf):
     plt.savefig('timeline.pdf', bbox_inches='tight')
 
 
-def plot_timeline(gf, platform1, platform2):
+def plot_timeline(gf, *platforms):
     """Plot dinosar inventory acquisitions as a timeline.
 
     Parameters
@@ -222,20 +222,18 @@ def plot_timeline(gf, platform1, platform2):
         A geopandas GeoDataFrame
 
     """
-    dfA = gf.query('platform == @platform1')
-    dfB = gf.query('platform == @platform2')
 
     # Same colors as map
     orbits = gf.relativeOrbit.unique()
     colors = plt.cm.jet(np.linspace(0, 1, orbits.size))
 
     fig, ax = plt.subplots(figsize=(11, 8.5))
-    plt.scatter(dfA.timeStamp.values, dfA.orbitCode.values,
-                edgecolors=colors[dfA.orbitCode.values], facecolors='None',
-                cmap='jet', s=60, label=f'{platform1}')
-    plt.scatter(dfB.timeStamp.values, dfB.orbitCode.values,
-                edgecolors=colors[dfB.orbitCode.values], facecolors='None',
-                cmap='jet', s=60, marker='d', label=f'{platform2}')
+    markers = ['o', 'd']
+    for k, platform in enumerate(platforms):
+        dfA = gf.query('platform == @platform')
+        plt.scatter(dfA.timeStamp.values, dfA.orbitCode.values,
+                    edgecolors=colors[dfA.orbitCode.values], facecolors='None',
+                    cmap='jet', marker=markers[k], s=60, label=f'{platform}')
 
     plt.yticks(gf.orbitCode.unique(), gf.relativeOrbit.unique())
 
@@ -247,3 +245,6 @@ def plot_timeline(gf, platform1, platform2):
     fig.autofmt_xdate()
     plt.title('Acquisition Timeline')
     plt.savefig('timeline.pdf', bbox_inches='tight')
+
+
+    

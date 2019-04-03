@@ -28,9 +28,9 @@ def main(parser):
     gf = load_inventory(args.input)
     w, s, e, n = gf.geometry.cascaded_union.bounds
     snwe = [s, n, w, e]
-    plat1, plat2 = gf.platform.unique()
+    plats = gf.platform.unique()
     plot.plot_map(gf, snwe, args.polygon)
-    plot.plot_timeline(gf, plat1, plat2)
+    plot.plot_timeline(gf, *plats)
     print('Saved map.pdf and timeline.pdf figures')
 
 
